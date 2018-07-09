@@ -2,7 +2,7 @@ package org.zgl.session;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
-import org.zgl.message.CIoMessage;
+import org.zgl.message.IoMessage;
 
 /**
  * 作者： 白泽
@@ -33,7 +33,7 @@ public class SessionImpl implements ISession {
     }
 
     @Override
-    public void write(Object response) {
+    public void write(IoMessage response) {
         channel.writeAndFlush(response);
 
     }
@@ -46,5 +46,10 @@ public class SessionImpl implements ISession {
     @Override
     public void close() {
         channel.close();
+    }
+
+    @Override
+    public Channel channel() {
+        return channel;
     }
 }

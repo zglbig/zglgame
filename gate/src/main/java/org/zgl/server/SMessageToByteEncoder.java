@@ -21,19 +21,22 @@ public class SMessageToByteEncoder extends MessageToByteEncoder<IoMessage> {
 
         }
         byteBuf.writeInt(-777888);
-        if(o instanceof ResponesPBIoMessage){
-            byteBuf.writeShort(MutualEnum.SERVER_TO_CLIENT_PB.id());
-        }else if(o instanceof ResponesBaseIoMessage){
-            byteBuf.writeShort(MutualEnum.SERVER_TO_CLIENT_BASE.id());
-        }else if(o instanceof CIoMessage){
-            byteBuf.writeShort(MutualEnum.SERVER_TO_SERVER_REQUEST.id());
-        }else if(o instanceof ServerIoMessage){
-            byteBuf.writeShort(MutualEnum.SERVER_TO_SERVER_RESPONES.id());
-        }else if(o instanceof RegistIoMessage){
-
-        }
+//        if(o instanceof GateIoMessage){
+//            byteBuf.writeShort(MutualEnum.SERVER_TO_CLIENT_PB.id());
+//        }
         byte[] buf = ProtostuffUtils.serializer(o);
         byteBuf.writeShort(buf.length);
         byteBuf.writeBytes(buf);
     }
+    /**
+     * 包头
+     * 数据源
+     * 数据长度
+     * 数据
+     *  服务器地址
+     *  接口名
+     *  方法名
+     *  参数类型
+     *  参数
+     */
 }

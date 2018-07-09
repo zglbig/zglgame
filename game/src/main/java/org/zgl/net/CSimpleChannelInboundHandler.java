@@ -3,10 +3,8 @@ package org.zgl.net;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.zgl.message.IoMessage;
-import org.zgl.message.RequestIoMessage;
-import org.zgl.message.ResultIoMessage;
-import org.zgl.message.ServerIoMessage;
-import org.zgl.proxy.RpcHandlerImpl;
+import org.zgl.message.ServerCommunicationIoMessage;
+import org.zgl.proxy.TcpProxyInboundHandler;
 
 /**
  * @作者： big
@@ -14,8 +12,8 @@ import org.zgl.proxy.RpcHandlerImpl;
  * @文件描述：
  */
 public class CSimpleChannelInboundHandler extends SimpleChannelInboundHandler<IoMessage> {
-    private final RpcHandlerImpl rpc = RpcHandlerImpl.getInstance();
-    private ServerIoMessage syncResult;
+    private final TcpProxyInboundHandler rpc = TcpProxyInboundHandler.getInstance();
+    private ServerCommunicationIoMessage syncResult;
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
     }
@@ -32,16 +30,12 @@ public class CSimpleChannelInboundHandler extends SimpleChannelInboundHandler<Io
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, IoMessage o) throws Exception {
-        if(o instanceof RequestIoMessage){
-            rpc.handler((RequestIoMessage) o);
-        }else if(o instanceof ServerIoMessage){
-            syncResult = (ServerIoMessage) o;
-        }
+        //这里就要做动态代理机制处理
         //如果是请求
         //如果是应答
     }
 
-    public ServerIoMessage getSyncResult() {
+    public ServerCommunicationIoMessage getSyncResult() {
         return syncResult;
     }
 }

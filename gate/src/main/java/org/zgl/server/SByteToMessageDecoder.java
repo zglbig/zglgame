@@ -3,10 +3,7 @@ package org.zgl.server;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import org.zgl.MutualEnum;
-import org.zgl.ProtostuffUtils;
 import org.zgl.message.*;
-
 import java.util.List;
 
 /**
@@ -45,7 +42,8 @@ public class SByteToMessageDecoder extends ByteToMessageDecoder {
                     return;
                 }
             }
-            short id = buffer.readShort();
+            short dataSrc = buffer.readShort();//数据源
+            short gameId = buffer.readShort();//请求的服务器id
             //读取数据长度
             short length = buffer.readShort();
             if (length < 0) {
@@ -59,34 +57,24 @@ public class SByteToMessageDecoder extends ByteToMessageDecoder {
             }
             byte[] data = new byte[length];
             buffer.readBytes(data);
-            IoMessagePackage ioMessagePackage = new IoMessagePackage();
-            ioMessagePackage.setAddressId(id);
-            MutualEnum mutualEnum = MutualEnum.getMutualEnum(id);
-            switch (mutualEnum){
-                case SERVER_TO_SERVER_REQUEST:
-                    //服务器请求别的服务器
-                    ioMessagePackage.setIoMessage(ProtostuffUtils.deserializer(data,CIoMessage.class));
-                    break;
-                case SERVER_TO_CLIENT:
-                    //消息返回客户端
-                    ioMessagePackage.setIoMessage(ProtostuffUtils.deserializer(data,ResultIoMessage.class));
-                    break;
-                case CLIENT_TO_SERVER:
-                    //客户端请求别的服务器
-                    ioMessagePackage.setIoMessage(ProtostuffUtils.deserializer(data,SIoMessage.class));
-                    break;
-                case SERVER_TO_SERVER_RESPONES:
-                    //一个服务器响应另外一个服务器
-                    ioMessagePackage.setIoMessage(ProtostuffUtils.deserializer(data,ServerIoMessage.class));
-                    break;
-                case REGIST:
-                    //注册链接
-                    ioMessagePackage.setIoMessage(ProtostuffUtils.deserializer(data,RegistIoMessage.class));
-                    break;
-            }
-            list.add(ioMessagePackage);
+            GateIoMessage ioMessage = new GateIoMessage(dataSrc,gameId, data);
+            list.add(ioMessage);
         }
         //数据不完整，等待完整的数据包
         return;
     }
+
+
+    /**
+     * 包头
+     * 数据源
+     * 请求的服务器id
+     * 数据长度
+     * 数据
+     *   服务器id
+     *   接口名
+     *   方法名
+     *   参数类型（如果是客户端的消息）
+     *   参数
+     */
 }

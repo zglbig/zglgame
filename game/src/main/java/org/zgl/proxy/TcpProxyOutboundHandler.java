@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class TcpProxyOutboundHandler {
     @SuppressWarnings("unchecked")
-    public static <T> T getRemoteProxyObj(final Class serviceInterFace, final ISession session, final List<Integer> uids, final Short address){
+    public static <T> T getRemoteProxyObj(final Class serviceInterFace, final ISession session, final List<Long> uids, final Short address){
         return (T) Proxy.newProxyInstance(serviceInterFace.getClassLoader(), new Class<?>[]{serviceInterFace}, new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {

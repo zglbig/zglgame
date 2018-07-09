@@ -7,12 +7,12 @@ package org.zgl.proxy;
  * @文件描述：
  */
 public abstract class OperationAbstract {
-    private int uid;
-    public int getUid() {
+    private long uid;
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 

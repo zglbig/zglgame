@@ -58,6 +58,7 @@ public class ProtostuffUtils {
             ProtostuffIOUtil.mergeFrom(data, obj, schema);
             return obj;
         } catch (Exception e) {
+            e.printStackTrace();
 //            LoggerUtils.getLogicLog().error("protostuff反序列化"+clazz+"对象是出现异常",e);
             return null;
         }

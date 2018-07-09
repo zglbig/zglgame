@@ -1,5 +1,6 @@
 package org.zgl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,11 +13,12 @@ public enum RoomEnum {
     ROOM_1(-7);
     private int id;
 
-    RoomEnum(int id) {
+    private RoomEnum(int id) {
         this.id = id;
     }
     private static Map<Integer,RoomEnum> map;
     static {
+        map = new HashMap<>();
         for(RoomEnum r: RoomEnum.values()){
             map.put(r.id,r);
         }

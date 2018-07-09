@@ -1,6 +1,9 @@
 package org.zgl.session;
 
 
+import io.netty.channel.Channel;
+import org.zgl.message.IoMessage;
+
 /**
  * 作者： 白泽
  * 时间： 2017/12/1.
@@ -29,7 +32,7 @@ public interface ISession {
      * 向会话中写入消息
      * @param response
      */
-    void write(Object response);
+    void write(IoMessage response);
 
     /**
      * 判断会话是否在连接中
@@ -42,4 +45,5 @@ public interface ISession {
      * @return
      */
     void close();
+    Channel channel();
 }

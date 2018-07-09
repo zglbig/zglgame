@@ -18,18 +18,18 @@ import java.util.Map;
  * @创建时间： 2018/6/15
  * @文件描述：
  */
-public class RpcHandlerImpl {
-    private static RpcHandlerImpl instance;
+public class TcpProxyInboundHandler {
+    private static TcpProxyInboundHandler instance;
 
-    public static RpcHandlerImpl getInstance() {
+    public static TcpProxyInboundHandler getInstance() {
         if (instance == null)
-            instance = new RpcHandlerImpl();
+            instance = new TcpProxyInboundHandler();
         return instance;
     }
 
     private final Map<String, Class<?>> registMap;
 
-    private RpcHandlerImpl() {
+    private TcpProxyInboundHandler() {
         registMap = new HashMap<>();
         registMap.put(Test.class.getName(), Test.class);
         scan("org.zgl");

@@ -29,4 +29,5 @@ public class CMessageToByteEncoder extends MessageToByteEncoder<IoMessage> {
         byteBuf.writeShort(buf.length);
         byteBuf.writeBytes(buf);
     }
+
 }

@@ -3,12 +3,9 @@ package org.zgl.net;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import org.zgl.MutualEnum;
 import org.zgl.ProtostuffUtils;
 import org.zgl.message.IoMessage;
-import org.zgl.message.RequestIoMessage;
-import org.zgl.message.ResultIoMessage;
-import org.zgl.message.ServerIoMessage;
+import org.zgl.message.ServerCommunicationIoMessage;
 
 import java.util.List;
 
@@ -46,8 +43,6 @@ public class CByteToMessageDecoder extends ByteToMessageDecoder {
                     return;
                 }
             }
-            //请求类型 1,请求 2,应答
-            short reqeustType = buffer.readShort();
             //读取数据长度
             short length = buffer.readShort();
             if (length < 0) {
@@ -61,19 +56,11 @@ public class CByteToMessageDecoder extends ByteToMessageDecoder {
             }
             byte[] data = new byte[length];
             buffer.readBytes(data);
-            IoMessage ioMessage = null;
-            MutualEnum mutualEnum = MutualEnum.getMutualEnum(reqeustType);
-            switch (mutualEnum){
-                case SERVER_TO_SERVER_RESPONES:
-                    ioMessage = ProtostuffUtils.deserializer(data,ServerIoMessage.class);
-                    break;
-                case SERVER_TO_SERVER_REQUEST:
-                    ioMessage = ProtostuffUtils.deserializer(data,RequestIoMessage.class);
-                    break;
-            }
+            IoMessage ioMessage = ProtostuffUtils.deserializer(data,ServerCommunicationIoMessage.class);
             list.add(ioMessage);
         }
         //数据不完整，等待完整的数据包
         return;
     }
+
 }

@@ -8,31 +8,31 @@ import java.util.List;
  * @文件描述：
  */
 public class SessionEntity {
-    private int uid;
-    private List<Integer> roomIds;//所在的房间、可能会在多个房间
+    private long uid;
+    private List<Integer> gameIds;//所在的房间、可能会在多个房间
     private long lastEditTime;//最后有操作的时间
 
     public SessionEntity() {
     }
 
-    public SessionEntity(int uid, long lastEditTime) {
+    public SessionEntity(long uid, long lastEditTime) {
         this.uid = uid;
         this.lastEditTime = lastEditTime;
     }
 
-    public List<Integer> getRoomIds() {
-        return roomIds;
+    public List<Integer> getGameIds() {
+        return gameIds;
     }
 
-    public void setRoomIds(List<Integer> roomIds) {
-        this.roomIds = roomIds;
+    public void setGameIds(List<Integer> gameIds) {
+        this.gameIds = gameIds;
     }
 
-    public int getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 
